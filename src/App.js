@@ -34,6 +34,7 @@ const WeatherCard = ({ title, data }) => {
 const WeatherDisplay = ({ city }) => {
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (city) {
@@ -47,25 +48,27 @@ const WeatherDisplay = ({ city }) => {
         })
         .then((response) => {
           setWeatherData(response.data);
+          setError(null); // Clear any previous errors
         })
         .catch((error) => {
           console.error("Error fetching data: ", error);
-          if (error.response && error.response.status === 500) {
-            alert("Internal Server Error: Failed to fetch weather data");
-          } else {
-            alert("Failed to fetch weather data");
-          }
+          setError(error.message || "Failed to fetch weather data");
         })
         .finally(() => {
           setLoading(false);
         });
     }
   }, [city]);
-  
+
   return (
     <div className="weather-display">
       {loading && <p>Loading data...</p>}
-      {!loading && weatherData && (
+      {!loading && error && (
+        <div>
+          <p>Error: {error}</p>
+        </div>
+      )}
+      {!loading && !error && weatherData && (
         <div className="weather-cards">
           <WeatherCard
             title="Temperature"
