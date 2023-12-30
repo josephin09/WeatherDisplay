@@ -33,25 +33,17 @@
 
 .weather-display {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  margin-top: 20px; /* Add margin for separation from the search bar */
-}
-
-.weather-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
 }
 
 .weather-card {
   background-color: white;
-  border-radius: 8px;
-  padding: 20px;
+  border-radius: 5px;
+  padding: 40px;
   width: 200px;
   text-align: center;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 1px rgba(0, 0,0,0.1);
 }
 
 .weather-card h3 {
@@ -60,6 +52,11 @@
 }
 
 .weather-card p {
-  font-size: 14px; /* Increase font size for better readability */
+  font-size: 10px;
   margin: 0;
+}
+
+.weather-cards{
+  display: flex;
+  gap: 1rem;
 }
