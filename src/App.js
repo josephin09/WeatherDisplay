@@ -11,6 +11,7 @@ const SearchBar = ({ onSearch }) => {
   const changeHandler = (e) => {
     setCity(e.target.value);
   };
+
   return (
     <div className="search-bar">
       <input
@@ -38,25 +39,29 @@ const WeatherDisplay = ({ city }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const getWeatherData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          "https://api.weatherapi.com/v1/current.json",
+          {
+            params: {
+              key: "7a75e1a8425648ad9b3132631232509", 
+              q: city,
+            },
+          }
+        );
+        setWeatherData(response.data);
+      } catch (error) {
+        console.error("Error fetching data: ", error.response || error.message);
+        alert("Failed to fetch weather data. Check console for details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (city) {
-      setLoading(true);
-      axios
-        .get(`https://api.weatherapi.com/v1/current.json`, {
-          params: {
-            key: "7a75e1a8425648ad9b3132631232509", 
-            q: city,
-          },
-        })
-        .then((response) => {
-          setWeatherData(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data: ", error);
-          alert("Failed to fetch weather data");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      getWeatherData();
     }
   }, [city]);
 
@@ -102,3 +107,5 @@ export default function App() {
   );
 }
 
+            
+           
